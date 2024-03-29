@@ -30,6 +30,20 @@ dependencyManagement {
 	}
 }
 
+bootBuildImage {
+	builder = "docker.io/paketobuildpacks/builder-jammy-base"
+	imageName = "${project.name}"
+	environment = ["BP_JVM_VERSION": "17"]
+
+	docker {
+		publishRegistry {
+			username = project.findProperty("REGISTRY_USERNAME")
+			password = project.findProperty("GITHUB_TOKEN")
+			url = project.findProperty("REGISTRY_URL")
+		}
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
